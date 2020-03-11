@@ -37,28 +37,28 @@ void setup() {
 void loop() {
   for (i = -15; i <= 15; i++) {
     hvost_b.write(90 + i);
-    delay(30);
+    delay(rost());
   }
 
   last();
   
    for (i = 15; i >= -15; i--) {
     hvost_d.write(90 + i);
-    delay(30);
+    delay(rost());
   }
 
   last();
   
    for (i = -15; i <= 15; i++) {
     hvost_b.write(90 - i);
-    delay(30);
+    delay(rost());
   }
 
   last();
   
    for (i = 15; i >= -15; i--) {
     hvost_d.write(90 - i);
-    delay(30);
+    delay(rost());
   }
 
   last();

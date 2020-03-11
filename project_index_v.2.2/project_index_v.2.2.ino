@@ -39,28 +39,28 @@ void loop() {
     hvost_b.write(90 + i);
     last_r.write(90 - i);
     last_l.write(90 + i);
-    delay(30);
+    delay(rost());
   }
   
    for (i = 15; i >= -15; i--) {
     hvost_d.write(90 + i);
     last_r.write(90 - i);
     last_l.write(90 + i);
-    delay(30);
+    delay(rost());
   }
   
    for (i = -15; i <= 15; i++) {
     hvost_b.write(90 - i);
     last_r.write(90 - i);
     last_l.write(90 + i);
-    delay(30);
+    delay(rost());
   }
   
    for (i = 15; i >= -15; i--) {
     hvost_d.write(90 - i);
     last_r.write(90 - i);
     last_l.write(90 + i);
-    delay(30);
+    delay(rost());
   }
 }
 
