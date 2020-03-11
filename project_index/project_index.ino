@@ -14,12 +14,12 @@ Servo last_l; // серво для левого ласта
 NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 
 int angle_last; // угол поворота ласт
-int p_last = 0; // начальное положение ласт
+int p_last = 90; // начальное положение ласт
 unsigned long del_last = 0; // переменная для хранения времени от начала работы платы для ласт
 //byte flag_last = 1; // флаг о положении ласт
 
 //--переменные для хвоста--//
-int p = -50; // начальное положение хвоста
+int p = 90; // начальное положение хвоста
 int i_1 = 0; // переменная для цикла вращения 1 ч. хвоста
 int i_2 = 0; // переменная для цикла вращения 2 ч. хвоста
 unsigned long del_hvost1 = 0; // переменная для хранения времени от начала работы платы для хвоста
@@ -84,13 +84,13 @@ void loop() {
 
 //--движение ластами--//
   if (Serial.available() > 0 && flag_last == 1) { // проверяем буфер порта и положение флажка
-    //flag_last = 2; // поднимаем флажок
+    flag_last = 2; // поднимаем флажок
     angle_last = Serial.parseInt();
     last_r.write(angle_last + p_last); // наклоняем ласты на нужный угол
     last_l.write(angle_last + p_last);
     last_r.write(0 + p_last);
     last_l.write(0 + p_last);
-    //del_last = millis();
+    del_last = millis();
   }
   if (flag_last == 2 && millis() - del_last >= 1000) { // проверяем положения флажка и время задержки
     last_r.write(0 + p_last); // возвращаем ласты в исходное положение

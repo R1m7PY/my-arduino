@@ -10,7 +10,7 @@ Servo last_l; // серво для левого ласта
 
 //--подключаем echo--//
 #define TRIGGER_PIN  2  // пин trig датчика
-#define ECHO_PIN     4  // пин echo датчика
+#define ECHO_PIN     3  // пин echo датчика
 #define MAX_DISTANCE 400 // максимальная дистанция echo
 NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 //-------------------//
@@ -22,37 +22,43 @@ void setup() {
   hvost_d.attach(7);
   hvost_b.attach(8);
   last_r.attach(12);
-  last_l.attach(5);
+  last_l.attach(4);
 //-----------------------------//
   /* питание от внешнего блока питания */
   Serial.begin(9600); // монитор порта
+
+  hvost_d.write(90 + 15);
+  hvost_b.write(90 - 15);
+  last_r.write(90);
+  last_l.write(90);
+  
 }
 
 void loop() {
   for (i = -15; i <= 15; i++) {
-    hvost_b.write(i);
-    delay(rost());
-  }
-
-  last();
-  
-   for (i = -15; i >= 15; i--) {
-    hvost_d.write(i);
-    delay(rost());
-  }
-
-  last();
-  
-   for (i = 15; i <= -15; i++) {
-    hvost_b.write(i);
-    delay(rost());
+    hvost_b.write(90 + i);
+    delay(30);
   }
 
   last();
   
    for (i = 15; i >= -15; i--) {
-    hvost_d.write(i);
-    delay(rost());
+    hvost_d.write(90 + i);
+    delay(30);
+  }
+
+  last();
+  
+   for (i = -15; i <= 15; i++) {
+    hvost_b.write(90 - i);
+    delay(30);
+  }
+
+  last();
+  
+   for (i = 15; i >= -15; i--) {
+    hvost_d.write(90 - i);
+    delay(30);
   }
 
   last();
@@ -77,8 +83,6 @@ int rost() { // функция, возращающая нужную задерж
     a = 25;
   } else if (distance < 300) {
     a = 30;
-  } else {
-    a = 40;
   }
   return a;
 }
@@ -91,15 +95,15 @@ void last() { // функция для наклона ласт
     angle = Serial.parseInt();
     
     for (j = 0; j <= angle; j++) { // наклоняем ласт
-      last_l.write(j);
-      last_r.write(j);
-      delay(rost());
+      last_l.write(90 + j);
+      last_r.write(90 + j);
+      delay(25);
     }
 
     for (j = angle; j >= 0; j--) { // возвращаем ласт
-      last_l.write(j);
-      last_r.write(j);
-      delay(rost());
+      last_l.write(90 + j);
+      last_r.write(90 + j);
+      delay(25);
     }
 
     Serial.flush(); // очищаем буфер порта

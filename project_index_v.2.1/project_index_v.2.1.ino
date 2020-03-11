@@ -21,11 +21,12 @@ int angle; // переменная угла поворота ласт
 ISR(TIMER0_COMPA_vect) { // функция прерывания(каждую мс)
   if (Serial.available() > 0) { // условие поворота ласт
     angle = Serial.parseInt();
-    last_r.write(angle);
-    last_l.write(angle);
+    last_r.write(90 + angle);
+    last_l.write(90 + angle);
     delay(1000); // ласты будут стоять 1 с
-    last_r.write(0);
-    last_l.write(0);
+    angle = 0;
+    last_r.write(90 + angle);
+    last_l.write(90 + angle);
     Serial.flush(); // очищаем буфер порта
   }
 }
@@ -46,26 +47,33 @@ void setup() {
   TCCR0B |= (1 << CS01) | (1 << CS00);
   sei();
 //-----------------------------------//
+
+  hvost_d.write(90 + 15);
+  hvost_b.write(90 - 15);
+  last_r.write(90);
+  last_l.write(90);
+
 }
 
 void loop() {
   for (i = -15; i <= 15; i++) {
-    hvost_b.write(i);
-    delay(rost());
+    hvost_b.write(90 + i);
+    delay(30);
   }
-
- for (i = -15; i >= 15; i--) {
-    hvost_d.write(i);
-    delay(rost());
-  }
-   for (i = 15; i <= -15; i++) {
-    hvost_b.write(i);
-    delay(rost());
-  }
-
+  
    for (i = 15; i >= -15; i--) {
-    hvost_d.write(i);
-    delay(rost());
+    hvost_d.write(90 + i);
+    delay(30);
+  }
+  
+   for (i = -15; i <= 15; i++) {
+    hvost_b.write(90 - i);
+    delay(30);
+  }
+  
+   for (i = 15; i >= -15; i--) {
+    hvost_d.write(90 - i);
+    delay(30);
   }
 }
 
@@ -88,8 +96,6 @@ int rost() { // функция, возращающая нужную задерж
     a = 25;
   } else if (distance < 300) {
     a = 30;
-  } else {
-    a = 40;
   }
   return a;
 }
