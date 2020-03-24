@@ -36,53 +36,28 @@ void setup() {
 
 void loop() {
   for (i = -15; i <= 15; i++) {
+    delay(15);
     hvost_b.write(90 + i);
-    last_r.write(90 - i);
-    last_l.write(90 + i);
-    delay(20);
   }
   
    for (i = 15; i >= -15; i--) {
+    delay(15);
     hvost_d.write(90 + i);
-    last_r.write(90 - i);
-    last_l.write(90 + i);
-    delay(20);
   }
   
    for (i = -15; i <= 15; i++) {
+    delay(15);
     hvost_b.write(90 - i);
-    last_r.write(90 - i);
-    last_l.write(90 + i);
-    delay(20);
   }
-  
+
+   last_r.write(90 + 15);
+   last_l.write(90 - 15);
+   delay(250);
+   last_r.write(90);
+   last_l.write(90);  
+    
    for (i = 15; i >= -15; i--) {
+    delay(15);
     hvost_d.write(90 - i);
-    last_r.write(90 - i);
-    last_l.write(90 + i);
-    delay(20);
   }
-}
-
-//--функции, используемые в коде--//
-
-int rost() { // функция, возращающая нужную задержку для серво
-  int a; // возвращаемая переменная
-  unsigned int distance = sonar.ping_cm(); // сохраняем в переменную дистанцию
-  
-  Serial.print("disttance "); 
-  Serial.println(distance);   // выводим дистанцию в порт
-
-  if (distance < 100) { // изменяем задержку в зависимости от растояния
-    a = 10;
-  } else if (distance < 150) {
-    a = 15;
-  } else if (distance < 200) {
-    a = 20;
-  } else if (distance < 250) {
-    a = 25;
-  } else if (distance < 300) {
-    a = 30;
-  }
-  return a;
 }
